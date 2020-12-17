@@ -1,7 +1,11 @@
+import React from 'react';
 import './App.css';
+import 'antd/dist/antd.css';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
-  return <div>Yay</div>;
+  return <Register />;
 }
 
 export default App;
