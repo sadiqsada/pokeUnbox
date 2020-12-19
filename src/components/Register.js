@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, Input, Button, Checkbox, Typography, Row } from 'antd';
+import { Form, Input, Button, Typography, Row } from 'antd';
 import UserContext from '../context/UserContext';
 import Axios from 'axios';
 
@@ -117,9 +117,6 @@ function Register() {
           ]}
         >
           <Input.Password />
-        </Form.Item>
-        <Form.Item {...tailLayout} name='remember' valuePropName='checked'>
-          <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
         <Form.Item {...tailLayout}>

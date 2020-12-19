@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Form, Input, Button, Checkbox, Typography, Row } from 'antd';
+import { Form, Input, Button, Typography, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import UserContext from '../context/UserContext';
@@ -69,8 +69,8 @@ function Login() {
             <Title level={2}>Login</Title>
           </Typography>
           <Form.Item
-            label='Username'
-            name='username'
+            label='Email'
+            name='email'
             value={email}
             onChange={handleEmail}
             rules={[
@@ -96,10 +96,6 @@ function Login() {
             ]}
           >
             <Input.Password />
-          </Form.Item>
-
-          <Form.Item {...tailLayout} name='remember' valuePropName='checked'>
-            <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
           <Form.Item {...tailLayout}>
