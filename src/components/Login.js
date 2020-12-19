@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox, Typography, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import UserContext from '../context/UserContext';
+
 const { Title } = Typography;
 
 const layout = {
@@ -50,63 +51,65 @@ function Login() {
   };
 
   return (
-    <Row
-      type='flex'
-      justify='center'
-      align='middle'
-      style={{ minHeight: '100vh' }}
-    >
-      <Form
-        {...layout}
-        name='basic'
-        initialValues={{
-          remember: true,
-        }}
+    <>
+      <Row
+        type='flex'
+        justify='center'
+        align='middle'
+        style={{ minHeight: '100vh' }}
       >
-        <Typography style={{ textAlign: 'center' }}>
-          <Title level={2}>Login</Title>
-        </Typography>
-        <Form.Item
-          label='Username'
-          name='username'
-          value={email}
-          onChange={handleEmail}
-          rules={[
-            {
-              required: true,
-              message: 'Please input your username!',
-            },
-          ]}
+        <Form
+          {...layout}
+          name='basic'
+          initialValues={{
+            remember: true,
+          }}
         >
-          <Input />
-        </Form.Item>
+          <Typography style={{ textAlign: 'center' }}>
+            <Title level={2}>Login</Title>
+          </Typography>
+          <Form.Item
+            label='Username'
+            name='username'
+            value={email}
+            onChange={handleEmail}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your username!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item
-          label='Password'
-          name='password'
-          value={password}
-          onChange={handlePassword}
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
+          <Form.Item
+            label='Password'
+            name='password'
+            value={password}
+            onChange={handlePassword}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-        <Form.Item {...tailLayout} name='remember' valuePropName='checked'>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+          <Form.Item {...tailLayout} name='remember' valuePropName='checked'>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type='primary' onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </Row>
+          <Form.Item {...tailLayout}>
+            <Button type='primary' onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Row>
+    </>
   );
 }
 

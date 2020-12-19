@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Row, Card } from 'antd';
+import { useHistory } from 'react-router-dom';
+import Header from './Header';
+import Axios from 'axios';
 
 function GenerateCard() {
   const [currentCard, setCurrentCard] = useState(
     'https://crystal-cdn3.crystalcommerce.com/photos/1140613/003.png'
   );
+  const [render, setRender] = useState(true);
+
+  const history = useHistory();
 
   const handleGenerate = () => {
     fetch('https://api.pokemontcg.io/v1/cards').then((response) => {
@@ -15,8 +21,15 @@ function GenerateCard() {
     });
   };
 
-  return (
-    <>
+  let generateCard = !render ? null : (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justify: 'middle',
+      }}
+    >
+      <Header />
       <Row
         type='flex'
         justify='center'
@@ -39,8 +52,10 @@ function GenerateCard() {
           Generate
         </Button>
       </Row>
-    </>
+    </div>
   );
+
+  return generateCard;
 }
 
 export default GenerateCard;
