@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button, Row, Card } from 'antd';
 import { useHistory } from 'react-router-dom';
 import Header from './Header';
-import Axios from 'axios';
 
 function GenerateCard() {
   const [currentCard, setCurrentCard] = useState(
@@ -11,6 +10,16 @@ function GenerateCard() {
   const [render, setRender] = useState(true);
 
   const history = useHistory();
+
+  useEffect(() => {
+    let token = localStorage.getItem('auth-token');
+    if (token === null || token === '') {
+      localStorage.setItem('auth-token', '');
+      token = '';
+      setRender(false);
+      history.push('/');
+    }
+  }, []);
 
   const handleGenerate = () => {
     fetch('https://api.pokemontcg.io/v1/cards').then((response) => {
