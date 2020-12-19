@@ -34,12 +34,12 @@ function App() {
         const userRes = await Axios.get('http://localhost:5000/users/', {
           headers: { 'x-auth-token': token },
         });
-      }
 
-      setUserData({
-        token,
-        user: userRes.data,
-      });
+        setUserData({
+          token,
+          user: userRes.data,
+        });
+      }
     };
 
     checkLoggedIn();
