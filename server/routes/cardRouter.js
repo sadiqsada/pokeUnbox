@@ -4,7 +4,7 @@ const Card = require('../models/cardModel');
 
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, pokedexNum } = req.body;
+    const { name, pokedexNum, types } = req.body;
     if (!name || !pokedexNum) {
       return res.status(400).json({ msg: 'Not all fields have been entered' });
     }
@@ -12,6 +12,7 @@ router.post('/', auth, async (req, res) => {
     const newCard = new Card({
       name,
       pokedexNum,
+      types,
       userId: req.user,
     });
 
