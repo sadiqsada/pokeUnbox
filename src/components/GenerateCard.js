@@ -9,6 +9,7 @@ function GenerateCard() {
     imageUrlHiRes:
       'https://crystal-cdn3.crystalcommerce.com/photos/1140613/003.png',
   });
+  const [currentDeck, setCurrentDeck] = useState([]);
   const [render, setRender] = useState(true);
 
   const history = useHistory();
@@ -60,45 +61,66 @@ function GenerateCard() {
   };
 
   let generateCard = !render ? null : (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justify: 'middle',
-      }}
-    >
+    <>
       <Header />
       <Row
-        type='flex'
-        justify='center'
-        align='middle'
-        style={{ minHeight: '60vh' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
       >
-        <Card
-          hoverable
-          style={{ width: 480, height: 600, marginTop: '2vh' }}
-          cover={
-            <img
-              style={{ height: 600 }}
-              alt='card'
-              src={currentCard.imageUrlHiRes}
-            />
-          }
-        ></Card>
-      </Row>
-      <Row type='flex' justify='center' style={{ marginTop: '3vh' }} gutter={6}>
-        <Col>
-          <Button onClick={handleGenerate} type='primary'>
-            Generate
-          </Button>
+        <Col span={12}>
+          <Row
+            style={{
+              fontWeight: '500',
+              fontFamily: ['Montserrat', 'sans-serif'],
+              fontSize: '2em',
+            }}
+            justify='center'
+          >
+            Deck
+          </Row>
         </Col>
-        <Col>
-          <Button onClick={handleAdd} type='primary'>
-            Add
-          </Button>
+        <Col
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          span={12}
+        >
+          <Row justify='center'>
+            <Card
+              hoverable
+              style={{ width: 480, height: 600, marginTop: '2vh' }}
+              cover={
+                <img
+                  style={{ height: 600 }}
+                  alt='card'
+                  src={currentCard.imageUrlHiRes}
+                />
+              }
+            ></Card>
+          </Row>
+          <Row
+            type='flex'
+            justify='center'
+            style={{ marginTop: '3vh' }}
+            gutter={6}
+          >
+            <Col>
+              <Button onClick={handleGenerate} type='primary'>
+                Generate
+              </Button>
+            </Col>
+            <Col>
+              <Button onClick={handleAdd} type='primary'>
+                Add
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
-    </div>
+    </>
   );
 
   return generateCard;
