@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Form, Input, Button, Typography, Row } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import ErrorNotice from '../misc/ErrorNotice';
 import Axios from 'axios';
 import UserContext from '../context/UserContext';
 
@@ -24,6 +25,7 @@ const tailLayout = {
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const history = useHistory();
 
@@ -38,20 +40,29 @@ function Login() {
   };
 
   const handleSubmit = async () => {
-    const loginRes = await Axios.post('http://localhost:5000/users/login', {
-      email,
-      password,
-    });
-    setUserData({
-      token: loginRes.data.token,
-      user: loginRes.data.user,
-    });
-    localStorage.setItem('auth-token', loginRes.data.token);
-    history.push('/generate');
+    try {
+      const loginRes = await Axios.post('http://localhost:5000/users/login', {
+        email,
+        password,
+      });
+      setUserData({
+        token: loginRes.data.token,
+        user: loginRes.data.user,
+      });
+      localStorage.setItem('auth-token', loginRes.data.token);
+      history.push('/generate');
+    } catch (err) {
+      err.response.data.msg && setError(err.response.data.msg);
+    }
   };
 
   return (
     <>
+      <Row type='flex' justify='center' style={{ marginTop: '4vh' }}>
+        {error && (
+          <ErrorNotice message={error} clearError={() => setError(undefined)} />
+        )}
+      </Row>
       <Row
         type='flex'
         justify='center'
@@ -103,6 +114,11 @@ function Login() {
               Submit
             </Button>
           </Form.Item>
+          <Link to='/register'>
+            <Form.Item {...tailLayout}>
+              <Button type='primary'>Create New Account</Button>
+            </Form.Item>
+          </Link>
         </Form>
       </Row>
     </>
