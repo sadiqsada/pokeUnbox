@@ -36,7 +36,16 @@ function GenerateCard() {
       }
     };
     checkTokenValid();
-  }, []);
+
+    const getAllCards = async () => {
+      let token = localStorage.getItem('auth-token');
+      const deck = await Axios.get('http://localhost:5000/cards/all', {
+        headers: { 'x-auth-token': token },
+      });
+      setCurrentDeck(deck.data);
+    };
+    getAllCards();
+  }, [currentDeck]);
 
   const handleGenerate = () => {
     fetch('https://api.pokemontcg.io/v1/cards').then((response) => {
@@ -58,6 +67,8 @@ function GenerateCard() {
     await Axios.post('http://localhost:5000/cards', newCard, {
       headers: { 'x-auth-token': token },
     });
+
+    setCurrentDeck([...currentDeck], currentCard);
   };
 
   let generateCard = !render ? null : (
@@ -80,6 +91,11 @@ function GenerateCard() {
           >
             Deck
           </Row>
+          {currentDeck.map((card) => (
+            <Row key={card.nationalPokedexNumber} justify='center'>
+              {card.name}
+            </Row>
+          ))}
         </Col>
         <Col
           style={{
