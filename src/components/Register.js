@@ -9,16 +9,16 @@ const { Title } = Typography;
 
 const layout = {
   labelCol: {
-    span: 8,
+    span: 10,
   },
   wrapperCol: {
-    span: 16,
+    span: 14,
   },
 };
 const tailLayout = {
   wrapperCol: {
-    offset: 8,
-    span: 16,
+    offset: 10,
+    span: 14,
   },
 };
 
@@ -117,7 +117,7 @@ function Register() {
           </Form.Item>
 
           <Form.Item
-            label='Password Check'
+            label='Confirm Password'
             name='passwordCheck'
             value={passwordCheck}
             onChange={handlePasswordCheck}

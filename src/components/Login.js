@@ -23,8 +23,8 @@ const tailLayout = {
 };
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('potato@gmail.com');
+  const [password, setPassword] = useState('password');
   const [error, setError] = useState('');
 
   const history = useHistory();
@@ -83,6 +83,7 @@ function Login() {
             label='Email'
             name='email'
             value={email}
+            initialValue={email}
             onChange={handleEmail}
             rules={[
               {
@@ -98,6 +99,7 @@ function Login() {
             label='Password'
             name='password'
             value={password}
+            initialValue={password}
             onChange={handlePassword}
             rules={[
               {
