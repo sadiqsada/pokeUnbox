@@ -11,6 +11,7 @@ function GenerateCard() {
   });
   const [currentDeck, setCurrentDeck] = useState([]);
   const [render, setRender] = useState(true);
+  const [disableAdd, setDisableAdd] = useState(true);
 
   const history = useHistory();
 
@@ -54,6 +55,8 @@ function GenerateCard() {
         setCurrentCard(data.cards[randNum]);
       });
     });
+
+    setDisableAdd(false);
   };
 
   const handleAdd = async () => {
@@ -129,7 +132,7 @@ function GenerateCard() {
               </Button>
             </Col>
             <Col>
-              <Button onClick={handleAdd} type='primary'>
+              <Button onClick={handleAdd} type='primary' disabled={disableAdd}>
                 Add
               </Button>
             </Col>
