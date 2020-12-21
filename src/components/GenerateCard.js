@@ -12,25 +12,10 @@ function GenerateCard() {
   const [currentDeck, setCurrentDeck] = useState([]);
   const [render, setRender] = useState(true);
   const [disableAdd, setDisableAdd] = useState(true);
-  // const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   const history = useHistory();
-
-  // const pokemon = require('pokemontcgsdk');
-
-  // let allCards = [];
-
-  // useEffect(() => {
-  //   const getAllCards = async () => {
-  //     await pokemon.card.all().on('data', function (card) {
-  //       allCards.push(card.name);
-  //     });
-  //     setLoading(false);
-  //   };
-
-  //   getAllCards();
-  // }, []);
-
+  
   useEffect(() => {
     const checkTokenValid = async () => {
       let token = localStorage.getItem('auth-token');
@@ -62,15 +47,15 @@ function GenerateCard() {
       setCurrentDeck(deck.data);
     };
     getAllCards();
-  }, []);
+    setLoading(false);
+  }, [history]);
 
   const handleGenerate = () => {
-    // console.log(allCards);
-    // let randNum = Math.floor(Math.random() * allCards.length);
-    // setCurrentCard(allCards[randNum]);
-    fetch('https://api.pokemontcg.io/v1/cards').then((response) => {
+    let randNum = Math.floor(Math.random() * 130);
+    fetch('https://api.pokemontcg.io/v1/cards?page=' + randNum).then((response) => {
       response.json().then((data) => {
-        let randNum = Math.floor(Math.random() * 100);
+        let randNum = Math.floor(Math.random() * data.cards.length);
+        console.log(data.cards.length);
         setCurrentCard(data.cards[randNum]);
       });
     });
@@ -91,8 +76,9 @@ function GenerateCard() {
     });
 
     setCurrentDeck([...currentDeck, currentCard]);
+    setDisableAdd(true);
   };
-  let generateCard = !render ? null : (
+  let generateCard = !render || isLoading ? null : (
     <>
       <Header />
       <Row
@@ -113,7 +99,7 @@ function GenerateCard() {
             Deck
           </Row>
           {currentDeck.map((card) => (
-            <Row key={card.id} justify='center'>
+            <Row key={card.name} justify='center'>
               {card.name}
             </Row>
           ))}

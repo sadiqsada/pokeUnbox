@@ -46,17 +46,15 @@ function App() {
   }, []);
 
   return (
-    <>
-      <BrowserRouter>
-        <UserContext.Provider value={{ userData, setUserData }}>
-          <Switch>
-            <Route exact path='/' component={Login} />
-            <Route path='/register' component={Register} />
-            <Route path='/generate' component={GenerateCard} />
-          </Switch>
-        </UserContext.Provider>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <UserContext.Provider value={{ userData, setUserData }}>
+        <Switch>
+          <Route exact path='/' component={Login} />
+          <Route path='/register' component={Register} />
+          <Route path='/generate' component={GenerateCard} />
+        </Switch>
+      </UserContext.Provider>
+    </BrowserRouter>
   );
 }
 
