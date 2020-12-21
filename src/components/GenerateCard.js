@@ -12,8 +12,24 @@ function GenerateCard() {
   const [currentDeck, setCurrentDeck] = useState([]);
   const [render, setRender] = useState(true);
   const [disableAdd, setDisableAdd] = useState(true);
+  // const [isLoading, setLoading] = useState(true);
 
   const history = useHistory();
+
+  // const pokemon = require('pokemontcgsdk');
+
+  // let allCards = [];
+
+  // useEffect(() => {
+  //   const getAllCards = async () => {
+  //     await pokemon.card.all().on('data', function (card) {
+  //       allCards.push(card.name);
+  //     });
+  //     setLoading(false);
+  //   };
+
+  //   getAllCards();
+  // }, []);
 
   useEffect(() => {
     const checkTokenValid = async () => {
@@ -46,9 +62,12 @@ function GenerateCard() {
       setCurrentDeck(deck.data);
     };
     getAllCards();
-  }, [currentDeck]);
+  }, []);
 
   const handleGenerate = () => {
+    // console.log(allCards);
+    // let randNum = Math.floor(Math.random() * allCards.length);
+    // setCurrentCard(allCards[randNum]);
     fetch('https://api.pokemontcg.io/v1/cards').then((response) => {
       response.json().then((data) => {
         let randNum = Math.floor(Math.random() * 100);
@@ -71,9 +90,8 @@ function GenerateCard() {
       headers: { 'x-auth-token': token },
     });
 
-    setCurrentDeck([...currentDeck], currentCard);
+    setCurrentDeck([...currentDeck, currentCard]);
   };
-
   let generateCard = !render ? null : (
     <>
       <Header />
@@ -95,7 +113,7 @@ function GenerateCard() {
             Deck
           </Row>
           {currentDeck.map((card) => (
-            <Row key={card.nationalPokedexNumber} justify='center'>
+            <Row key={card.id} justify='center'>
               {card.name}
             </Row>
           ))}
