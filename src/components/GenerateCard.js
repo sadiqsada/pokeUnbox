@@ -13,6 +13,7 @@ function GenerateCard() {
   const [currentDeck, setCurrentDeck] = useState([]);
   const [render, setRender] = useState(true);
   const [disableAdd, setDisableAdd] = useState(true);
+  const [disableGen, setDisableGen] = useState(false);
 
   const history = useHistory();
 
@@ -50,16 +51,21 @@ function GenerateCard() {
   }, []);
 
   const handleGenerate = () => {
+    setDisableGen(true);
     let randNum = Math.floor(Math.random() * 130);
     fetch('https://api.pokemontcg.io/v1/cards?page=' + randNum).then(
       (response) => {
-        response.json().then((data) => {
-          let randNum = Math.floor(Math.random() * data.cards.length);
-          setCurrentCard(data.cards[randNum]);
-        });
+        response
+          .json()
+          .then((data) => {
+            let randNum = Math.floor(Math.random() * data.cards.length);
+            setCurrentCard(data.cards[randNum]);
+          })
+          .then(() => {
+            setDisableGen(false);
+          });
       }
     );
-
     setDisableAdd(false);
   };
 
@@ -142,7 +148,11 @@ function GenerateCard() {
             gutter={6}
           >
             <Col>
-              <Button onClick={handleGenerate} type='primary'>
+              <Button
+                onClick={handleGenerate}
+                disabled={disableGen}
+                type='primary'
+              >
                 Generate
               </Button>
             </Col>
