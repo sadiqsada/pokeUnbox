@@ -76,7 +76,7 @@ function GenerateCard() {
       headers: { 'x-auth-token': token },
     });
 
-    setCurrentDeck([...currentDeck, currentCard]);
+    setCurrentDeck([currentCard, ...currentDeck]);
     setDisableAdd(true);
   };
 
