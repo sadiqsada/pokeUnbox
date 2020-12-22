@@ -3,6 +3,7 @@ import { Button, Row, Col, Card } from 'antd';
 import { useHistory } from 'react-router-dom';
 import Header from './Header';
 import Axios from 'axios';
+import DeckCardView from './DeckCardView';
 
 function GenerateCard() {
   const [currentCard, setCurrentCard] = useState({
@@ -12,10 +13,9 @@ function GenerateCard() {
   const [currentDeck, setCurrentDeck] = useState([]);
   const [render, setRender] = useState(true);
   const [disableAdd, setDisableAdd] = useState(true);
-  const [isLoading, setLoading] = useState(true);
 
   const history = useHistory();
-  
+
   useEffect(() => {
     const checkTokenValid = async () => {
       let token = localStorage.getItem('auth-token');
@@ -47,18 +47,18 @@ function GenerateCard() {
       setCurrentDeck(deck.data);
     };
     getAllCards();
-    setLoading(false);
-  }, [history]);
+  }, []);
 
   const handleGenerate = () => {
     let randNum = Math.floor(Math.random() * 130);
-    fetch('https://api.pokemontcg.io/v1/cards?page=' + randNum).then((response) => {
-      response.json().then((data) => {
-        let randNum = Math.floor(Math.random() * data.cards.length);
-        console.log(data.cards.length);
-        setCurrentCard(data.cards[randNum]);
-      });
-    });
+    fetch('https://api.pokemontcg.io/v1/cards?page=' + randNum).then(
+      (response) => {
+        response.json().then((data) => {
+          let randNum = Math.floor(Math.random() * data.cards.length);
+          setCurrentCard(data.cards[randNum]);
+        });
+      }
+    );
 
     setDisableAdd(false);
   };
@@ -68,6 +68,7 @@ function GenerateCard() {
       name: currentCard.name,
       pokedexNum: currentCard.nationalPokedexNumber,
       types: currentCard.types,
+      imageUrl: currentCard.imageUrl,
     };
     let token = localStorage.getItem('auth-token');
 
@@ -78,7 +79,12 @@ function GenerateCard() {
     setCurrentDeck([...currentDeck, currentCard]);
     setDisableAdd(true);
   };
-  let generateCard = !render || isLoading ? null : (
+
+  const handleGoToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+  let generateCard = !render ? null : (
     <>
       <Header />
       <Row
@@ -98,11 +104,16 @@ function GenerateCard() {
           >
             Deck
           </Row>
-          {currentDeck.map((card) => (
-            <Row key={card.name} justify='center'>
-              {card.name}
-            </Row>
-          ))}
+          <Row style={{ marginLeft: '1vw' }}>
+            {currentDeck.map((card) => (
+              <DeckCardView key={card._id} data={card} />
+            ))}
+          </Row>
+          <Row style={{ marginTop: '1vh' }} justify='center'>
+            <Button onClick={handleGoToTop} type='primary'>
+              Go To Top
+            </Button>
+          </Row>
         </Col>
         <Col
           style={{
