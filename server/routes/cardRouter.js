@@ -5,7 +5,7 @@ const Card = require('../models/cardModel');
 router.post('/', auth, async (req, res) => {
   try {
     const { name, pokedexNum, types, imageUrl } = req.body;
-    if (!name || !pokedexNum) {
+    if (!name) {
       return res.status(400).json({ msg: 'Not all fields have been entered' });
     }
 
