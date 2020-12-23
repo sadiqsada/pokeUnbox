@@ -15,17 +15,25 @@ function Header() {
     history.push('/');
   };
   return (
-    <Menu
-      onClick={handleLogout}
-      theme='dark'
-      mode='horizontal'
-      defaultSelectedKeys={['2']}
-    >
+    <Menu theme='dark' mode='horizontal'>
+      <Menu.Item
+        style={{
+          float: 'left',
+          fontSize: '1.4em',
+          color: 'white',
+          fontWeight: 700,
+        }}
+        disabled
+        key='1'
+      >
+        PokeUnbox
+      </Menu.Item>
       <Menu.Item
         style={{
           float: 'right',
         }}
-        key='1'
+        key='2'
+        onClick={handleLogout}
       >
         Log Out
       </Menu.Item>

@@ -3,7 +3,6 @@ import { Button, Row, Col, Card } from 'antd';
 import { useHistory } from 'react-router-dom';
 import Header from './Header';
 import Axios from 'axios';
-import DeckCardView from './DeckCardView';
 
 function GenerateCard() {
   const [currentCard, setCurrentCard] = useState({
@@ -14,6 +13,7 @@ function GenerateCard() {
   const [render, setRender] = useState(true);
   const [disableAdd, setDisableAdd] = useState(true);
   const [disableGen, setDisableGen] = useState(false);
+  const [updateState, setUpdateState] = useState(false);
 
   const history = useHistory();
 
@@ -39,7 +39,9 @@ function GenerateCard() {
       }
     };
     checkTokenValid();
+  }, []);
 
+  useEffect(() => {
     const getAllCards = async () => {
       let token = localStorage.getItem('auth-token');
       const deck = await Axios.get('http://localhost:5000/cards/all', {
@@ -48,7 +50,7 @@ function GenerateCard() {
       setCurrentDeck(deck.data);
     };
     getAllCards();
-  }, []);
+  }, [updateState]);
 
   const handleGenerate = () => {
     setDisableGen(true);
@@ -82,8 +84,24 @@ function GenerateCard() {
       headers: { 'x-auth-token': token },
     });
 
-    setCurrentDeck([currentCard, ...currentDeck]);
+    setUpdateState(!updateState);
     setDisableAdd(true);
+  };
+
+  const handleDelete = async (card) => {
+    // delete the selected card from the database
+    const id = card._id;
+    const token = localStorage.getItem('auth-token');
+    const deleteString = 'http://localhost:5000/cards/' + id;
+    await Axios.delete(deleteString, {
+      headers: { 'x-auth-token': token },
+    })
+      .then(() => {
+        console.log('Deleted.');
+      })
+      .catch((err) => console.log(err.message));
+
+    setUpdateState(!updateState);
   };
 
   const handleGoToTop = () => {
@@ -108,11 +126,22 @@ function GenerateCard() {
             }}
             justify='center'
           >
-            Deck
+            Collection
           </Row>
           <Row style={{ marginLeft: '1vw' }}>
             {currentDeck.map((card) => (
-              <DeckCardView key={card._id} data={card} />
+              <Card
+                hoverable
+                onClick={() => handleDelete(card)}
+                style={{ width: '16vw', height: '45vh' }}
+                cover={
+                  <img
+                    style={{ height: '45vh' }}
+                    alt='card'
+                    src={card.imageUrl}
+                  ></img>
+                }
+              ></Card>
             ))}
           </Row>
           <Row style={{ marginTop: '1vh' }} justify='center'>
